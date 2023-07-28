@@ -1,6 +1,6 @@
-## Contact App
+## My Contact
 
-Contact App is CRUD contact application. This project is only configured for **Android**. Features in Contact App:
+My Contact is CRUD contact application. This project is only configured for **Android**. Features in My Contact:
 1. View list of contact
 2. Search contact by name or age
 3. View contact detail
@@ -34,13 +34,15 @@ gradlew assembleRelease
 ```
 
 ## Preview Screens
+![List](https://github.com/fransiskasiburian/My-Contact/assets/47467448/b1a77a3a-6da1-4aac-b829-4b5fef70e4c3)
+![Search](https://github.com/fransiskasiburian/My-Contact/assets/47467448/ffdf5d69-b3a2-454e-82ab-9663afeca196)
+![Add](https://github.com/fransiskasiburian/My-Contact/assets/47467448/21da5095-0c79-4359-92db-0ca4dc560d1d)
+![Detail](https://github.com/fransiskasiburian/My-Contact/assets/47467448/16ffe373-5a68-43ba-9e5e-2890d6e92bf2)
+![Edit](https://github.com/fransiskasiburian/My-Contact/assets/47467448/67832a2b-ccfb-44d5-b70f-fafbb112d515)
+![Delete](https://github.com/fransiskasiburian/My-Contact/assets/47467448/7fd50175-6fe2-45fd-b33a-4695e2ac54eb)
 
-![List](https://github.com/fransiskasiburian/contactApp/assets/47467448/eafa4fa3-42aa-43a8-84ae-5bf348cc607c)
-![Edit](https://github.com/fransiskasiburian/contactApp/assets/47467448/2ca10b6d-300f-4490-801f-07c9a7934b37)
-![Add](https://github.com/fransiskasiburian/contactApp/assets/47467448/fed9784b-9067-4c61-8ad8-c2239335c354)
-![Delete](https://github.com/fransiskasiburian/contactApp/assets/47467448/e523f367-91f2-45ff-acf1-0253ece4e102)
-![Detail](https://github.com/fransiskasiburian/contactApp/assets/47467448/05595ba9-8c20-48ef-9c90-1839d5dbf3c4)
-![Search](https://github.com/fransiskasiburian/contactApp/assets/47467448/b7a27b9f-4356-4cd1-9364-2ef6f56b1c97)
+
+
 
 
 
