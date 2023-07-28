@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native'
 import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
@@ -46,6 +47,11 @@ const List = ({navigation}) => {
     <TouchableOpacity
       onPress={() => {
         if (item.type == 'name') {
+          if (searchActive) {
+            keywordSearch?.current?.setKeyword('')
+            setSearchActive(false)
+            setSearchData(storeContact?.list?.finalData)
+          }
           navigation.navigate(ROUTE_NAMES.DETAIL_CONTACT, {id: item.personId})
         }
       }}>
@@ -57,7 +63,8 @@ const List = ({navigation}) => {
               resizeMode='contain'
               source={{
                 uri:
-                  item.imageUrl.match(/https/g) || item.imageUrl.match(/http/g)
+                  (item.imageUrl.match(/https/g) !== null ||
+                  item.imageUrl.match(/http/g) !== null)
                     ? item.imageUrl
                     : imageDefaultUrl,
               }}
@@ -141,6 +148,12 @@ const List = ({navigation}) => {
           keyExtractor={item => item.id}
           stickyHeaderIndices={storeContact?.list?.stickeyIndex}
           renderItem={renderItem}
+          refreshControl={
+            <RefreshControl
+              refreshing={storeContact.loadingList}
+              onRefresh={() => contactAction.getListRequest()}
+            />
+          }
           ListEmptyComponent={
             <Text style={styles.emptyText}>
               {searchActive

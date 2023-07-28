@@ -118,42 +118,43 @@ export const Creators = {
   }),
 }
 
-function customData(data) {
+function customData (data) {
   const newData = data.sort((a, b) => {
-    if (a.firstName < b.firstName) return -1;
-    return a.firstName > b.firstName ? 1 : 0;
-  });
+    if (a.firstName < b.firstName) return -1
+    return a.firstName > b.firstName ? 1 : 0
+  })
 
-  let finalData = [];
-  let stickeyIndex = [];
+  let finalData = []
+  let stickeyIndex = []
   newData.forEach((name, i) => {
     if (
       i == 0 ||
       name.firstName.substr(0, 1) != newData[i - 1]?.firstName?.substr(0, 1)
     ) {
-      stickeyIndex.push(i + stickeyIndex.length);
+      stickeyIndex.push(i + stickeyIndex.length)
       finalData.push({
         id: i.toString() + 'head',
-        name: name?.firstName?.substr(0, 1).toUpperCase(),
+        name: name?.firstName
+          ? name?.firstName?.substr(0, 1).toUpperCase()
+          : '',
         type: 'head',
         imageUrl: 'N/A',
-      });
+      })
     }
     finalData.push({
       id: i.toString() + 'name',
-      firstName: name?.firstName,
-      lastName: name?.lastName,
-      name: `${name?.firstName} ${name?.lastName}`,
-      age: name?.age,
+      firstName: name?.firstName || '',
+      lastName: name?.lastName || '',
+      name: `${name?.firstName || ''} ${name?.lastName || ''}`,
+      age: name?.age || '',
       type: 'name',
-      imageUrl: name?.photo?.toString(),
+      imageUrl: name?.photo ? name?.photo?.toString() : '',
       personId: name?.id,
-    });
-  });
+    })
+  })
 
-  return {finalData, stickeyIndex};
+  return {finalData, stickeyIndex}
 }
-
 
 const ducks = (state = initialState, action) => {
   switch (action.type) {
