@@ -16,6 +16,7 @@ import {
   Colors,
   ROUTE_NAMES,
   imageDefaultUrl,
+  isValidHttpUrl,
   moderateScale,
   verticalScale,
 } from '~/utils'
@@ -81,11 +82,9 @@ const DetailContact = ({navigation, route}) => {
               style={styles.image}
               resizeMode='contain'
               source={{
-                uri:
-                  storeContact.detail?.photo?.match(/https/g) !== null ||
-                  storeContact.detail?.photo?.match(/http/g) !== null
-                    ? storeContact.detail?.photo
-                    : imageDefaultUrl,
+                uri: isValidHttpUrl(storeContact.detail?.photo || '')
+                  ? storeContact.detail?.photo
+                  : imageDefaultUrl,
               }}
             />
             <Text style={styles.name}>
@@ -149,7 +148,7 @@ const DetailContact = ({navigation, route}) => {
           contactAction.updateContactRequest({id: route?.params?.id, body})
         }
         editData={storeContact.detail}
-        loadingAdd={storeContact.loadingUpdate}
+        loading={storeContact.loadingUpdate}
       />
 
       <ModalConfirmation

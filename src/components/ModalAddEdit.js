@@ -7,6 +7,7 @@ import {
   Colors,
   horizontalScale,
   imageDefaultUrl,
+  isValidHttpUrl,
   moderateScale,
   screenHeight,
   verticalScale,
@@ -25,6 +26,7 @@ const ModalAddEdit = props => {
     firstName: false,
     lastName: false,
     age: false,
+    photo: false,
   })
 
   const onErrorImage = () => {
@@ -38,21 +40,25 @@ const ModalAddEdit = props => {
       age?.current?.getKeyword()?.length > 0 &&
       age?.current?.getKeyword()?.trim() != 0
 
-    if (isValid) {
+    const isValidImageUrl =
+      photoLink?.current?.getKeyword()?.trim() !== ''
+        ? isValidHttpUrl(linkPhoto)
+          ? true
+          : false
+        : true
+
+    if (isValid && isValidImageUrl) {
       setErrorValid({
         firstName: false,
         lastName: false,
         age: false,
+        photo: false,
       })
       props?.onSubmit({
         firstName: firstName?.current?.getKeyword()?.trim(),
         lastName: lastName?.current?.getKeyword(),
         age: age?.current?.getKeyword()?.trim(),
-        photo:
-          linkPhoto.match(/https/g) !== null ||
-          linkPhoto.match(/http/g) !== null
-            ? linkPhoto
-            : imageDefaultUrl,
+        photo: isValidHttpUrl(linkPhoto) ? linkPhoto : imageDefaultUrl,
       })
     } else {
       setErrorValid({
@@ -61,6 +67,9 @@ const ModalAddEdit = props => {
         age:
           age?.current?.getKeyword()?.length == 0 ||
           age?.current?.getKeyword()?.trim() == 0,
+        photo:
+          photoLink?.current?.getKeyword()?.trim() !== '' &&
+          !isValidHttpUrl(linkPhoto),
       })
     }
   }
@@ -71,6 +80,7 @@ const ModalAddEdit = props => {
         firstName: false,
         lastName: false,
         age: false,
+        photo: false,
       })
       setLinkPhoto('')
 
@@ -92,6 +102,12 @@ const ModalAddEdit = props => {
         setLinkPhoto(
           props?.editData?.photo ? props?.editData?.photo.toString() : '',
         )
+      } else {
+        firstName.current?.setKeyword('')
+        lastName.current?.setKeyword('')
+        age.current?.setKeyword('')
+        photoLink.current?.setKeyword('')
+        setLinkPhoto('')
       }
     }
   }, [props?.isVisible])
@@ -185,11 +201,15 @@ const ModalAddEdit = props => {
                 setLinkPhoto(photoLink?.current?.getKeyword())
               }
             />
+            {errorValid.photo && (
+              <Text style={styles.textError}>
+                Image URL should be with http:// or https://
+              </Text>
+            )}
             {linkPhoto !== '' && (
-              <>
+              <View style={{marginTop: verticalScale(15)}}>
                 <Text style={styles.textlabel}>Preview Image</Text>
-                {(linkPhoto.match(/https/g) !== null ||
-                  linkPhoto.match(/http/g) !== null) && (
+                {isValidHttpUrl(linkPhoto) && (
                   <Image
                     style={styles.image}
                     resizeMode='contain'
@@ -197,14 +217,14 @@ const ModalAddEdit = props => {
                     onError={() => onErrorImage()}
                   />
                 )}
-              </>
+              </View>
             )}
           </View>
 
           <Button
             title={props?.editData ? 'Edit Contact' : 'Add Contact'}
             onPress={() => checkValidate()}
-            loading={props?.loadingAdd}
+            loading={props?.loading}
             buttonStyle={props?.editData && styles.editButton}
             titleStyle={props?.editData && {color: Colors.violetsBlue}}
           />

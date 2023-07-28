@@ -16,11 +16,21 @@ import {
 
 const Button = props => {
   return (
-    <View style={[style.button, {...props.containerStyle}]}>
+    <View
+      style={[
+        style.button,
+        {...props.containerStyle},
+        props.loading && {
+          backgroundColor: Colors.antiflashWhite,
+        },
+      ]}>
       <TouchableOpacity
         style={[
           style.button,
-          {backgroundColor: Colors.violetsBlue, ...props.buttonStyle},
+          {...props.buttonStyle},
+          props.loading && {
+            backgroundColor: Colors.antiflashWhite,
+          },
         ]}
         activeOpacity={0.5}
         onPress={props?.onPress}
@@ -44,21 +54,11 @@ const Button = props => {
 export default Button
 
 const style = StyleSheet.create({
-  containerBtnBetween: {
-    backgroundColor: Colors.defaultWhite,
-    borderWidth: moderateScale(1),
-    borderColor: Colors.violetsBlue,
-    height: verticalScale(45),
-    borderRadius: moderateScale(1),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: horizontalScale(16),
-  },
   button: {
     height: verticalScale(45),
     borderRadius: moderateScale(10),
     justifyContent: 'center',
+    backgroundColor: Colors.brightNavyBlue,
   },
   textFooter: {
     fontFamily: Fonts[600],

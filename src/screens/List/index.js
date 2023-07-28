@@ -24,6 +24,7 @@ import {
   Colors,
   ROUTE_NAMES,
   imageDefaultUrl,
+  isValidHttpUrl,
   moderateScale,
   verticalScale,
 } from '~/utils'
@@ -62,9 +63,7 @@ const List = ({navigation}) => {
               style={styles.image}
               resizeMode='contain'
               source={{
-                uri:
-                  (item.imageUrl.match(/https/g) !== null ||
-                  item.imageUrl.match(/http/g) !== null)
+                uri: isValidHttpUrl(item.imageUrl)
                     ? item.imageUrl
                     : imageDefaultUrl,
               }}
@@ -168,7 +167,7 @@ const List = ({navigation}) => {
         setIsVisible={setOpenAdd}
         isVisible={openAdd}
         onSubmit={body => contactAction.addContactRequest(body)}
-        loadingAdd={storeContact.loadingAdd}
+        loading={storeContact.loadingAdd}
       />
     </MainContainer>
   )

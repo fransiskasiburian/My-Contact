@@ -1,6 +1,7 @@
 ## My Contact
 
-My Contact is CRUD contact application. This project is only configured for **Android**. Features in My Contact:
+My Contact is CRUD contact application. This project is only configured for **Android** with React Native and Redux-Saga.
+Features in My Contact:
 1. View list of contact
 2. Search contact by name or age
 3. View contact detail
