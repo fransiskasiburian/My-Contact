@@ -48,7 +48,7 @@ jobs:
         run: cd android && ./gradlew assembleRelease
 
       - name: Check APK output path
-        run: ls -la android/app/build/outputs/apk/
+        run: ls -la android/app/build/outputs/apk/release
 
       # Upload the APK to Firebase App Distribution
       - name: Upload to Firebase App Distribution
@@ -57,5 +57,5 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: android/app/build/outputs/apk/debug/app-universal-debug.apk  # Adjusted path to the release APK
+          file: android/app/build/outputs/apk/release/app-universal-release.apk  # Adjusted path to the release APK
           releaseNotes: ${{ github.event.inputs.release_notes }}  # Use the provided release notes
