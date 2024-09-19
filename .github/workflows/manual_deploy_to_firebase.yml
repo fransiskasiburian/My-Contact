@@ -30,24 +30,19 @@ jobs:
           java-version: '11'
 
       # Cache Gradle dependencies for faster builds
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       # Build the APK
       - name: Build APK
-        run: cd android && ./gradlew assembleRelease
+        run: cd android && ./gradlew clean && ./gradlew assembleRelease
 
       # Upload the APK to Firebase App Distribution
       - name: Upload to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1  # Using the existing Firebase distribution action
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}  # Firebase App ID stored in GitHub secrets
+          appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-          groups: testers  # Group of testers defined in Firebase
-          file: app/build/outputs/apk/debug/app-debug.apk  # Path to your APK file
-          releaseNotes: "Release notes for this build"  # Optional release notes
+          groups: testers
+          file: android/app/build/outputs/apk/release/app-release.apk  # Adjusted path to the release APK
+          releaseNotes: ${{ github.event.inputs.release_notes }}  # Use the provided release notes
