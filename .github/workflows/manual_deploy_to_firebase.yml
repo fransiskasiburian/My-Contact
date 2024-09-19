@@ -54,5 +54,5 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: android/app/build/outputs/apk/release/app-release.apk  # Adjusted path to the release APK
+          file: android/app/build/outputs/apk/debug/app-universal-debug.apk  # Adjusted path to the release APK
           releaseNotes: ${{ github.event.inputs.release_notes }}  # Use the provided release notes
