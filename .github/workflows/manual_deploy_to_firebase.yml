@@ -3,14 +3,7 @@ name: Firebase App Distribution
 on:
   push:
     branches:
-      - main  # Trigger on push to main branch
-  workflow_dispatch:
-    inputs:
-      release_notes:
-        type: string
-        required: true
-        default: 'Manual Debug Build'
-        description: 'Release Notes'
+      - main  # Trigger on pushes to the main branch
 
 jobs:
   upload-to-firebase:
@@ -18,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout your repository
+      # Checkout your repository code
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -28,7 +21,7 @@ jobs:
         with:
           java-version: '11'
 
-      # Cache Gradle dependencies
+      # Cache Gradle dependencies for faster builds
       - name: Cache Gradle dependencies
         uses: actions/cache@v3
         with:
@@ -43,39 +36,10 @@ jobs:
 
       # Upload the APK to Firebase App Distribution
       - name: Upload to Firebase App Distribution
-        uses: fransiskasiburian/My-Contact@main  # Uses your GitHub repository and main branch
+        uses: wzieba/Firebase-Distribution-Github-Action@v1  # Using the existing Firebase distribution action
         with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}  # Firebase App ID from GitHub secrets
-          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}  # Service credentials
-          groups: testers  # Group of testers in Firebase
-          file: app/build/outputs/apk/debug/app-debug.apk  # APK file path
-          releaseNotes: ${{ inputs.release_notes }}  # Optional release notes
-
-  build:
-    name: Building and distributing app
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Execute Gradle command - assembleDebug
-        run: ./gradlew assembleDebug
-
-      - name: Upload Artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
-        with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-          groups: testers
-          file: app/build/outputs/apk/debug/app-debug.apk
-          releaseNotes: ${{ inputs.release_notes }}
+          appId: ${{ secrets.FIREBASE_APP_ID }}  # Firebase App ID stored in GitHub secrets
+          token: ${{ secrets.FIREBASE_TOKEN }}  # Firebase authentication token
+          groups: testers  # Group of testers defined in Firebase
+          file: app/build/outputs/apk/debug/app-debug.apk  # Path to your APK file
+          releaseNotes: "Release notes for this build"  # Optional release notes
