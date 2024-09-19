@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew assembleDebug
 
       - name: Upload Artifact to Firebase App Distribution
-        uses: fransiskasiburian/My-Contact
+        uses: fransiskasiburian/My-Contact@main
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
