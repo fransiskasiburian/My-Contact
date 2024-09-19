@@ -47,6 +47,9 @@ jobs:
       - name: Build APK
         run: cd android && ./gradlew assembleRelease
 
+      - name: Check APK output path
+        run: ls -la android/app/build/outputs/apk/
+
       # Upload the APK to Firebase App Distribution
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
